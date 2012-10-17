@@ -1,8 +1,9 @@
+#!/usr/bin/env node
+
 var program = require('commander'),
 	bouncy = require('bouncy'),
 	crypto = require('crypto'),
 	querystring = require('querystring'),
-	readline = require('readline'),
 	_ = require('underscore'),
 	url = require('url'),
 	XDate = require('xdate');
@@ -16,6 +17,13 @@ program
 	.option('-k, --key [key]', 'storage account key')
 	.option('-p, --port [port]', 'port (defaults to 8080)', parseInt)
 	.parse(process.argv);
+
+['account', 'key'].forEach(function (name) {
+	if (!program[name]) {
+		console.log('Missing required parameter: ' + name);
+		program.help();
+	}
+});
 
 function canonicalizedResource(parsedUrl) {
 	return '/' + parsedUrl.hostname.split('.')[0] + (parsedUrl.pathname || '/') +
@@ -95,7 +103,7 @@ function sign(req, key, stringGenerator) {
    	return additionalHeaders;	
 }
 
-var server = bouncy(function (req, bounce) {
+bouncy(function (req, bounce) {
 	var split = req.headers.host.split(':');
 	var host = split[0];
 	var port = split[1];
@@ -111,11 +119,7 @@ var server = bouncy(function (req, bounce) {
 	} else {
 		bounce(host, port || 80);
 	}
-});
-server.listen(program.port || 8080);
+}).listen(program.port || 8080);
 
 console.log('Wazproxy is listening. Set your HTTP proxy to 127.0.0.1:' + (program.port || 8080) + '.');
-console.log('Press enter to exit...');
-
-var rl = readline.createInterface({input: process.stdin, output: process.stdout})
-rl.on('line', function () { server.close(); rl.close(); });
+console.log('Press Ctrl+C to exit...');

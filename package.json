@@ -5,7 +5,7 @@
   "contributors": [{"name": "Steve Marx", "email": "smarx@smarx.com"}],
   "keywords": ["azure", "blobs", "tables", "queues"],
   "repository": "git://github.com/smarx/wazproxy.git",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "dependencies": {
     "bouncy": "~1.3.1",
     "underscore": "~1.4.2",
