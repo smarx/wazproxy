@@ -12,7 +12,7 @@ _.str = require('underscore.string');
 _.mixin(_.str.exports());
 
 program
-	.version('1.0.0')
+	.version('1.0.1')
 	.option('-a, --account [account]', 'storage account name')
 	.option('-k, --key [key]', 'storage account key')
 	.option('-p, --port [port]', 'port (defaults to 8080)', parseInt)
