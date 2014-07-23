@@ -91,7 +91,7 @@ function sign(req, key, stringGenerator) {
 	var account = parsedUrl.hostname.split('.')[0];
 	var additionalHeaders = {};
 	if (!_.contains(req.headers, 'x-ms-version')) {
-		additionalHeaders['x-ms-version'] = '2011-08-18';
+		additionalHeaders['x-ms-version'] = '2014-02-14';
 	}
 	if (!_.contains(req.headers, 'x-ms-date')) {
 		additionalHeaders['x-ms-date'] = new XDate().toUTCString("ddd, dd MMM yyyy HH:mm:ss 'GMT'");
@@ -107,10 +107,10 @@ bouncy(function (req, bounce) {
 	var split = req.headers.host.split(':');
 	var host = split[0];
 	var port = split[1];
-	var match = host.match(RegExp('^' + program.account + '\\.(blob|table|queue)\\.core\\.windows\\.net$'));
+	var match = host.match(RegExp('^' + program.account + '\\.(blob|table|queue|file)\\.core\\.windows\\.net$'));
 	if (match) {
 		var additionalHeaders;
-		if (match[1] === 'blob' || match[1] === 'queue') {
+		if (match[1] === 'blob' || match[1] === 'queue' || match[1] === 'file') {
 			additionalHeaders = sign(req, program.key, stringForBlobOrQueue);
 		} else {
 			additionalHeaders = sign(req, program.key, stringForTable);
